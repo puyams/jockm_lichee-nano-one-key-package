@@ -40,6 +40,13 @@ pull_uboot(){
 		echo "pull buildroot ok"
 	fi
 }
+patch_usb(){
+	echo "Applying USB Patch..."
+	pushd ${temp_root_dir}/${linux_dir}/linux
+	patch -p1 < ${temp_root_dir}/usb.patch
+	popd
+	echo "Done"
+}
 pull_linux(){
  	rm -rf ${temp_root_dir}/${linux_dir} &&\
 	mkdir -p ${temp_root_dir}/${linux_dir} &&\
@@ -130,6 +137,7 @@ pull_all(){
 
 	pull_uboot
 	pull_linux
+	patch_usb
 	pull_toolchain
 	pull_buildroot
 	cp -f ${temp_root_dir}/buildroot.config ${temp_root_dir}/buildroot/${buildroot_dir}
